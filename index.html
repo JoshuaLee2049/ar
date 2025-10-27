@@ -344,22 +344,34 @@
     <div class="modal-card" role="document">
       <div class="modal-head">
         <h3 id="import-title" data-key="modal_title">匯入自定義文化資產</h3>
-        <button id="btn-close-modal" class="btn" type="button" aria-label="關閉">✕</button>
+        <div style="display:flex; gap:.4rem; align-items:center">
+          <button id="tab-single" class="btn" type="button" aria-pressed="true" data-key="tab_single">單筆</button>
+          <button id="tab-csv" class="btn" type="button" aria-pressed="false" data-key="tab_csv">CSV 批次</button>
+          <button id="btn-close-modal" class="btn" type="button" aria-label="關閉">✕</button>
+        </div>
       </div>
       <form id="import-form" method="dialog">
-        <div class="row" style="margin-top:.6rem">
+        <!-- 單筆匯入 -->
+        <div id="import-single" class="row" style="margin-top:.6rem">
           <div class="col-12"><label for="asset-name" data-key="modal_label_name">資產名稱 (必填)</label><input id="asset-name" class="input" required /></div>
           <div class="col-6"><label for="asset-location" data-key="modal_label_location">地點 / 縣市 (必填)</label><input id="asset-location" class="input" required /></div>
           <div class="col-6"><label for="asset-type" data-key="modal_label_type">類型 (古蹟/博物館/無形文化...)</label><input id="asset-type" class="input" /></div>
-          <div class="col-12"><label for="asset-desc" data-key="modal_label_desc">簡要描述 (用於 AI 導覽 RAG)</label><textarea id="asset-desc" class="input" rows="4"></textarea></div>
+          <div class="col-12"><label for="asset-desc" data-key="modal_label_desc">簡要描述 (用於 AI 導覽 RAG)</label>
+            <div style="display:flex; gap:.5rem; align-items:center; margin-bottom:.4rem">
+              <button id="btn-ai-sum" class="btn" type="button" data-key="btn_ai_sum">AI 摘要</button>
+              <small style="color:var(--muted)" data-key="hint_ai_sum">未連線時以本地規則摘要</small>
+            </div>
+            <textarea id="asset-desc" class="input" rows="4"></textarea>
+          </div>
+          <div class="col-6"><label for="asset-img-url" data-key="modal_label_img_url">圖片網址 (可選)</label><input id="asset-img-url" class="input" placeholder="https://..." /></div>
+          <div class="col-6"><label for="asset-img-file" data-key="modal_label_img_file">或上傳圖片 (可選)</label><input id="asset-img-file" class="input" type="file" accept="image/*" /></div>
         </div>
-        <div class="modal-actions">
-          <button class="btn" type="button" id="btn-cancel" data-key="btn_cancel">取消</button>
-          <button class="btn primary" type="submit" id="btn-submit" data-key="btn_submit">匯入並啟用</button>
-        </div>
-      </form>
-    </div>
-  </dialog>
+
+        <!-- CSV 批次匯入 -->
+        <div id="import-csv" class="row" style="margin-top:.6rem; display:none">
+          <div class="col-12"><label for="csv-file" data-key="modal_label_csv">上傳 CSV 檔（UTF-8, 首列為欄名）</label><input id="csv-file" class="input" type="file" accept=".csv" /></div>
+          <div class="col-12" style="color:var(--muted); font-size:.92rem">
+            <
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
@@ -662,6 +674,28 @@
       btnZh.addEventListener('click', () => applyLang('zh-Hant'));
       btnEn.addEventListener('click', () => applyLang('en'));
 
+      // --- 導覽：點擊平滑捲動 + 活動狀態 ---
+      const navLinks = $$('.nav a');
+      navLinks.forEach(a => a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = $(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }));
+      const observedSections = ['#section-guide','#section-kb','#section-xp','#section-me']
+        .map(sel => $(sel)).filter(Boolean);
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = '#' + entry.target.id;
+            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0.1 });
+      observedSections.forEach(sec => io.observe(sec));
+
       // 篩選
       filterButtons.forEach(btn => btn.addEventListener('click', () => {
         filterButtons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
@@ -670,6 +704,66 @@
         state.filter = btn.dataset.filter || 'all';
         renderKB();
       }));
+
+      // 搜尋（去抖）
+      let timer = 0;
+      kbSearch.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { state.search = kbSearch.value; renderKB(); }, 180);
+      });
+
+      // 匯入
+      btnImport.addEventListener('click', () => modal.showModal());
+      btnCloseModal.addEventListener('click', () => modal.close());
+      btnCancel.addEventListener('click', () => modal.close());
+
+      importForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = inputName.value.trim();
+        const loc = inputLoc.value.trim();
+        if (!name || !loc) { toast(t('toast_import_error'), 'error'); return; }
+        const type = (inputType.value.trim() || 'custom').toLowerCase();
+        const desc = inputDesc.value.trim();
+        const asset = {
+          id: String(Date.now()),
+          type,
+          title_zh: name,
+          info_zh: `${loc} / ${type === 'custom' ? '用戶自定義' : type}`,
+          title_en: `[Custom] ${name}`,
+          info_en: `${loc} / Custom Asset`,
+          img_url: `https://via.placeholder.com/600x340/4a4a5a/ffffff?text=${encodeURIComponent(name.slice(0,10))}`,
+          desc,
+        };
+        addCustomAsset(asset);
+        modal.close();
+        importForm.reset();
+        toast(i18n[state.lang].toast_import_ok(name), 'success');
+      });
+
+      // 折疊
+      const toggle = (btn, body) => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) { body.setAttribute('hidden', ''); } else { body.removeAttribute('hidden'); }
+      };
+      localToggle.addEventListener('click', () => toggle(localToggle, localBody));
+      localToggle.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(localToggle, localBody); } });
+      meToggle.addEventListener('click', () => toggle(meToggle, meBody));
+      meToggle.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(meToggle, meBody); } });
+
+      // 聊天
+      btnSend.addEventListener('click', () => {
+        if (!state.ragReady) { toast(t('toast_need_key'), 'error'); return; }
+        const msg = chatInput.value.trim();
+        if (!msg) return;
+        addBubble('user', msg);
+        chatInput.value = '';
+        simulateRAG(msg);
+      });
+      chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); btnSend.click(); }
+      });
+    }));
 
       // 搜尋（去抖）
       let timer = 0;
@@ -748,5 +842,6 @@
   </script>
 </body>
 </html>
+>
 
 
