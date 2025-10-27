@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     /* =============================
-       核心配色與主題
-       ============================= */
+       核心配色與主題
+       ============================= */
     :root {
       --bg: #070718;
       --bg-grad-a: rgba(0, 255, 255, 0.1);
@@ -58,8 +58,8 @@
     }
 
     /* =============================
-       基礎元件
-       ============================= */
+       基礎元件
+       ============================= */
     .grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -168,14 +168,12 @@
   </style>
 </head>
 <body>
-  <!-- 語言切換 -->
   <div class="lang-switch" style="display:flex; gap:.5rem; align-items:center; margin-bottom: .6rem;">
     <span style="color:var(--text); font-size:.9rem" data-key="ui_lang">介面語言:</span>
     <button class="btn" data-lang="zh-Hant" id="btn-zh">繁體中文</button>
     <button class="btn" data-lang="en" id="btn-en">English</button>
   </div>
 
-  <!-- 頁首 -->
   <header class="header" role="banner">
     <h1 id="app-title" data-key="title">文化智遊儀表板</h1>
     <nav class="nav" aria-label="主要導覽">
@@ -187,7 +185,6 @@
   </header>
 
   <main class="grid" role="main" aria-live="polite">
-    <!-- API 模組 -->
     <section class="panel col-12" aria-labelledby="api-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>API</span></div>
@@ -217,7 +214,6 @@
       </div>
     </section>
 
-    <!-- AI 導覽 -->
     <section id="section-guide" class="panel col-12" aria-labelledby="guide-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>AI</span></div>
@@ -235,7 +231,6 @@
       </div>
     </section>
 
-    <!-- 知識庫 -->
     <section id="section-kb" class="panel col-12" aria-labelledby="kb-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>DB</span></div>
@@ -257,7 +252,6 @@
       <div id="kb-grid" class="kb-grid" aria-live="polite"></div>
     </section>
 
-    <!-- 沉浸式體驗 -->
     <section id="section-xp" class="panel col-12" aria-labelledby="xp-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>AR</span></div>
@@ -283,7 +277,6 @@
       </div>
     </section>
 
-    <!-- 在地資訊（可折疊） -->
     <section class="panel col-12" aria-labelledby="local-h2">
       <div id="local-toggle" class="module-header collapsible" role="button" tabindex="0" aria-expanded="true">
         <div class="chip" aria-hidden="true"><span>GPS</span></div>
@@ -312,7 +305,6 @@
       </div>
     </section>
 
-    <!-- 個人化中心（可折疊） -->
     <section id="section-me" class="panel col-12" aria-labelledby="me-h2">
       <div id="me-toggle" class="module-header collapsible" role="button" tabindex="0" aria-expanded="true">
         <div class="chip" aria-hidden="true"><span>USR</span></div>
@@ -339,39 +331,39 @@
     </section>
   </main>
 
-  <!-- 匯入資料 Modal -->
   <dialog id="import-modal" class="modal" aria-labelledby="import-title" aria-modal="true">
     <div class="modal-card" role="document">
       <div class="modal-head">
         <h3 id="import-title" data-key="modal_title">匯入自定義文化資產</h3>
-        <div style="display:flex; gap:.4rem; align-items:center">
-          <button id="tab-single" class="btn" type="button" aria-pressed="true" data-key="tab_single">單筆</button>
-          <button id="tab-csv" class="btn" type="button" aria-pressed="false" data-key="tab_csv">CSV 批次</button>
-          <button id="btn-close-modal" class="btn" type="button" aria-label="關閉">✕</button>
-        </div>
+        <button id="btn-close-modal" class="btn" type="button" aria-label="關閉">✕</button>
       </div>
       <form id="import-form" method="dialog">
-        <!-- 單筆匯入 -->
-        <div id="import-single" class="row" style="margin-top:.6rem">
+        <div class="row" style="margin-top:.6rem">
           <div class="col-12"><label for="asset-name" data-key="modal_label_name">資產名稱 (必填)</label><input id="asset-name" class="input" required /></div>
           <div class="col-6"><label for="asset-location" data-key="modal_label_location">地點 / 縣市 (必填)</label><input id="asset-location" class="input" required /></div>
           <div class="col-6"><label for="asset-type" data-key="modal_label_type">類型 (古蹟/博物館/無形文化...)</label><input id="asset-type" class="input" /></div>
-          <div class="col-12"><label for="asset-desc" data-key="modal_label_desc">簡要描述 (用於 AI 導覽 RAG)</label>
-            <div style="display:flex; gap:.5rem; align-items:center; margin-bottom:.4rem">
-              <button id="btn-ai-sum" class="btn" type="button" data-key="btn_ai_sum">AI 摘要</button>
-              <small style="color:var(--muted)" data-key="hint_ai_sum">未連線時以本地規則摘要</small>
-            </div>
-            <textarea id="asset-desc" class="input" rows="4"></textarea>
-          </div>
-          <div class="col-6"><label for="asset-img-url" data-key="modal_label_img_url">圖片網址 (可選)</label><input id="asset-img-url" class="input" placeholder="https://..." /></div>
-          <div class="col-6"><label for="asset-img-file" data-key="modal_label_img_file">或上傳圖片 (可選)</label><input id="asset-img-file" class="input" type="file" accept="image/*" /></div>
-        </div>
 
-        <!-- CSV 批次匯入 -->
-        <div id="import-csv" class="row" style="margin-top:.6rem; display:none">
-          <div class="col-12"><label for="csv-file" data-key="modal_label_csv">上傳 CSV 檔（UTF-8, 首列為欄名）</label><input id="csv-file" class="input" type="file" accept=".csv" /></div>
-          <div class="col-12" style="color:var(--muted); font-size:.92rem">
-            <
+          <div class="col-12"><label for="asset-img-url" data-key="modal_label_img">圖片 URL (選填)</label><input id="asset-img-url" class="input" type="url" placeholder="https://..." /></div>
+
+          <div class="col-12">
+            <label for="asset-desc" data-key="modal_label_desc">簡要描述 (用於 AI 導覽 RAG)</label>
+            <textarea id="asset-desc" class="input" rows="4"></textarea>
+            <button id="btn-ai-summarize" class="btn" type="button" style="margin-top:.5rem;" data-key="btn_ai_summarize">🤖 AI 自動摘要 (模擬)</button>
+          </div>
+
+          <div class="col-12" style="margin-top:1rem; border-top: 1px dashed var(--glass-border); padding-top: 1rem;">
+            <h4 style="margin:0 0 .5rem 0; color:var(--pri)" data-key="modal_h4_csv">或：批次匯入 CSV 資料</h4>
+            <input id="asset-csv-file" type="file" accept=".csv" class="input" style="padding: .5rem;" />
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn" type="button" id="btn-cancel" data-key="btn_cancel">取消</button>
+          <button class="btn primary" type="submit" id="btn-submit" data-key="btn_submit">單筆匯入並啟用</button>
+          <button class="btn" type="button" id="btn-import-csv" data-key="btn_import_csv">批次匯入 CSV</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
@@ -393,7 +385,7 @@
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
     // =====================
-    // i18n 字典
+    // i18n 字典 (已擴充)
     // =====================
     const i18n = {
       'zh-Hant': {
@@ -407,13 +399,31 @@
         h2_immersive: '沉浸式體驗', p_immersive: '啟動您的時光機', tag_ar: 'AR 實景還原', h4_anping: '安平古堡：熱蘭遮城 1632', tag_vr: 'VR 虛擬展館', h4_taipei: '已消失的台北城牆 (數位重建)',
         h2_local: '在地即時資訊', p_local: '整合開放資料', map_placeholder: '--- 互動地圖載入區域 ---', bus_route: '[市區公車] 77路', bus_status: '即將抵達：赤崁樓站 (3 分鐘)', event_name: '[節慶活動] 府城文化節', event_status: '進行中：孔廟園區 (距離 1.2km)',
         h2_personal: '個人化中心', p_personal: '您的文化足跡', card_fav: '我的收藏', card_fav_p: '您已收藏 12 個景點與 3 篇導覽', card_trip: '我的行程', card_trip_p: '您有 1 個即將到來的行程 (台南三日遊)', card_ach: '我的成就', card_ach_p: '已解鎖「府城探索者」徽章',
-        modal_title: '匯入自定義文化資產', modal_label_name: '資產名稱 (必填)', modal_label_location: '地點 / 縣市 (必填)', modal_label_type: '類型 (古蹟/博物館/無形文化...)', modal_label_desc: '簡要描述 (用於 AI 導覽 RAG)', btn_cancel: '取消', btn_submit: '匯入並啟用',
+        
+        // Modal & 匯入
+        modal_title: '匯入自定義文化資產', 
+        modal_label_name: '資產名稱 (必填)', 
+        modal_label_location: '地點 / 縣市 (必填)', 
+        modal_label_type: '類型 (古蹟/博物館/無形文化...)',
+        modal_label_img: '圖片 URL (選填)', // 新增
+        modal_label_desc: '簡要描述 (用於 AI 導覽 RAG)', 
+        modal_h4_csv: '或：批次匯入 CSV 資料', // 新增
+        btn_ai_summarize: '🤖 AI 自動摘要 (模擬)', // 新增
+        btn_cancel: '取消', 
+        btn_submit: '單筆匯入並啟用', // 修改文案
+        btn_import_csv: '批次匯入 CSV', // 新增
+        
+        // Toast
         toast_lang_switched: (isZh) => `介面已切換為 ${isZh ? '繁體中文' : 'English'}（已儲存）`,
         toast_key_ok: 'Gemini API Key 儲存並驗證成功！服務核心啟動。',
         toast_key_bad: 'Gemini API Key 格式錯誤或無效。',
         toast_need_key: '請先在 API 設定模組中輸入有效的 Gemini Key。',
         toast_import_error: '請填寫「資產名稱」與「地點」。',
         toast_import_ok: (name) => `成功匯入資產：「${name}」。已加入 RAG 資料源。`,
+        toast_ai_summarizing: 'AI 摘要處理中...', // 新增
+        toast_ai_summarize_ok: '摘要完成！已回填至描述欄位。', // 新增
+        toast_import_csv_error: 'CSV 匯入失敗，請檢查檔案和格式 (需包含 title, location 欄位)。', // 新增
+        toast_import_csv_ok: (count) => `成功匯入 ${count} 筆資產。已加入 RAG 資料源。`, // 新增
       },
       en: {
         ui_lang: 'Language:',
@@ -425,13 +435,31 @@
         h2_immersive: 'Immersive Experience', p_immersive: 'Launch Your Time Machine', tag_ar: 'AR Live Restoration', h4_anping: 'Anping Fort: Zeelandia 1632', tag_vr: 'VR Virtual Exhibition', h4_taipei: 'Lost Taipei City Walls (Digital)',
         h2_local: 'Local Real-Time Info', p_local: 'Open Data Integration', map_placeholder: '--- Interactive Map Loading Area ---', bus_route: '[TRANSIT] Route 77', bus_status: 'Arriving: Chikan Tower (3 min)', event_name: '[EVENT] Fucheng Culture Fest', event_status: 'Active: Confucius Temple (1.2km)',
         h2_personal: 'Personal Center', p_personal: 'Your Cultural Footprint', card_fav: 'My Favorites', card_fav_p: '12 assets and 3 tours saved.', card_trip: 'My Trips', card_trip_p: '1 upcoming itinerary (Tainan 3-Day)', card_ach: 'My Achievements', card_ach_p: "Achieved: 'Fucheng Explorer' Badge",
-        modal_title: 'Import Custom Cultural Asset', modal_label_name: 'Asset Name (Required)', modal_label_location: 'Location / City (Required)', modal_label_type: 'Type (Monument/Museum/Intangible...)', modal_label_desc: 'Brief Description (for RAG)', btn_cancel: 'Cancel', btn_submit: 'Import & Activate',
+        
+        // Modal & Import
+        modal_title: 'Import Custom Cultural Asset', 
+        modal_label_name: 'Asset Name (Required)', 
+        modal_label_location: 'Location / City (Required)', 
+        modal_label_type: 'Type (Monument/Museum/Intangible...)', 
+        modal_label_img: 'Image URL (Optional)', // 新增
+        modal_label_desc: 'Brief Description (for RAG)', 
+        modal_h4_csv: 'OR: Batch Import CSV Data', // 新增
+        btn_ai_summarize: '🤖 AI Auto Summarize (Simulated)', // 新增
+        btn_cancel: 'Cancel', 
+        btn_submit: 'Import Single Asset', // 修改文案
+        btn_import_csv: 'Import CSV Batch', // 新增
+        
+        // Toast
         toast_lang_switched: (isZh) => `Language switched to ${isZh ? '繁體中文' : 'English'} (saved)`,
         toast_key_ok: 'Gemini API Key validated! Service core started.',
         toast_key_bad: 'Gemini API Key error or invalid.',
         toast_need_key: 'Please enter a valid Gemini Key in API settings first.',
         toast_import_error: 'Please fill Asset Name & Location.',
         toast_import_ok: (name) => `Imported: "${name}". Added to RAG source.`,
+        toast_ai_summarizing: 'AI summarizing in progress...', // 新增
+        toast_ai_summarize_ok: 'Summarization complete! Result filled into description.', // 新增
+        toast_import_csv_error: 'CSV import failed. Check file and format (requires title, location columns).', // 新增
+        toast_import_csv_ok: (count) => `Successfully imported ${count} assets. Added to RAG source.`, // 新增
       }
     };
 
@@ -454,7 +482,7 @@
     ];
 
     // =====================
-    // DOM 參照
+    // DOM 參照 (已擴充)
     // =====================
     const ragDot = $('#rag-dot');
     const ragText = $('#rag-text');
@@ -483,10 +511,17 @@
     const btnCloseModal = $('#btn-close-modal');
     const btnCancel = $('#btn-cancel');
     const importForm = $('#import-form');
+    
+    // 新增 & 修正參照
     const inputName = $('#asset-name');
     const inputLoc = $('#asset-location');
     const inputType = $('#asset-type');
+    const inputImgUrl = $('#asset-img-url'); // 新增
     const inputDesc = $('#asset-desc');
+    const btnAiSummarize = $('#btn-ai-summarize'); // 新增
+    const inputFileCsv = $('#asset-csv-file'); // 新增
+    const btnImportCsv = $('#btn-import-csv'); // 新增
+    
 
     const toaster = $('#toast');
 
@@ -520,7 +555,9 @@
     // =====================
     function t(key) {
       const lang = state.lang in i18n ? state.lang : 'zh-Hant';
-      return i18n[lang][key] ?? key;
+      // 確保 i18n[lang][key] 是字串而非函數
+      const val = i18n[lang][key];
+      return (typeof val === 'function') ? key : (val ?? key);
     }
 
     function applyLang(lang) {
@@ -529,7 +566,13 @@
       // 更新 data-key 文案
       $$('[data-key]').forEach(el => {
         const key = el.getAttribute('data-key');
-        const val = dict[key];
+        let val = dict[key];
+        
+        // 處理函數型別的文案 (如 toast_lang_switched)
+        if (typeof val === 'function') {
+            val = key; // 保持原樣或使用 key，因為這些通常不是靜態文案
+        }
+        
         if (!val) return;
         if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
           el.placeholder = val;
@@ -558,26 +601,14 @@
       }
     }
 
-    btnSaveAPI.addEventListener('click', () => {
-      const key = inputGemini.value.trim();
-      const ok = key && key.length > 10;
-      state.geminiKey = key;
-      state.ragReady = !!ok;
-      localStorage.setItem('geminiKey', state.geminiKey);
-      localStorage.setItem('ragReady', String(state.ragReady));
-      setRagUI(state.ragReady);
-      toast(ok ? t('toast_key_ok') : t('toast_key_bad'), ok ? 'success' : 'error');
-      if (ok) addBubble('ai', (state.lang === 'zh-Hant') ? '服務已啟動。RAG 檢索就緒，請開始提問！' : 'Service initiated. RAG retrieval is ready.');
-    });
-
     // =====================
-    // 知識庫：載入/儲存
+    // 知識庫：載入/儲存 (已更新)
     // =====================
     function loadKnowledge() {
       let custom = [];
       try { custom = JSON.parse(localStorage.getItem('customKnowledge') || '[]'); } catch {}
       // 校正欄位，避免舊資料缺 type
-      custom = custom.map((a, i) => ({ type: 'custom', ...a }));
+      custom = custom.map((a, i) => ({ type: (a.type || 'custom').toLowerCase(), ...a }));
       state.knowledge = [...DEFAULT_KB, ...custom];
     }
 
@@ -588,7 +619,90 @@
       loadKnowledge();
       renderKB();
     }
+    
+    // =====================
+    // CSV 解析與匯入 (新增)
+    // =====================
+    // 簡易 CSV 解析函數 (需確保 CSV 內容不含引號中的逗號)
+    function parseCsv(csvText) {
+        // 假設 CSV 格式為：title,location,type,desc,img_url
+        const lines = csvText.trim().split('\n').filter(line => line.trim() !== '');
+        if (lines.length <= 1) return null; 
 
+        // 取得標題列並轉小寫
+        const headers = lines[0].toLowerCase().split(','); 
+        const titleIndex = headers.indexOf('title');
+        const locIndex = headers.indexOf('location');
+        const typeIndex = headers.indexOf('type');
+        const descIndex = headers.indexOf('desc');
+        const imgIndex = headers.indexOf('img_url');
+
+        if (titleIndex === -1 || locIndex === -1) {
+            console.error('CSV 缺少必需的標題欄位：title, location');
+            return null; // 解析失敗
+        }
+
+        const results = [];
+        for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(','); 
+            if (cols.length < 2) continue;
+
+            const asset = {
+                id: 'custom-csv-' + Date.now() + '-' + i,
+                type: (cols[typeIndex] || 'custom').trim().toLowerCase(),
+                title_zh: (cols[titleIndex] || '').trim(),
+                info_zh: (cols[locIndex] || '').trim(),
+                title_en: (cols[titleIndex] || '').trim(), 
+                info_en: (cols[locIndex] || '').trim(), 
+                desc: (cols[descIndex] || '').trim(), 
+                img_url: (cols[imgIndex] || '').trim(), 
+            };
+
+            // 檢查必填欄位
+            if (asset.title_zh && asset.info_zh) {
+                results.push(asset);
+            }
+        }
+        return results;
+    }
+
+    // 處理單筆匯入
+    function handleSingleImport(e) {
+        e.preventDefault();
+        const name = inputName.value.trim();
+        const loc = inputLoc.value.trim();
+
+        if (!name || !loc) {
+            toast(t('toast_import_error'), 'error');
+            return;
+        }
+        
+        const imgUrl = inputImgUrl.value.trim();
+
+        const asset = {
+            id: 'custom-' + Date.now(),
+            type: (inputType.value.trim() || 'custom').toLowerCase(),
+            title_zh: name,
+            info_zh: loc,
+            title_en: name, // 簡化：英文與中文暫時相同
+            info_en: loc,
+            desc: inputDesc.value.trim(),
+            img_url: imgUrl,
+        };
+
+        addCustomAsset(asset);
+        toast(t('toast_import_ok')(name), 'success');
+        
+        // 清空欄位
+        inputName.value = '';
+        inputLoc.value = '';
+        inputType.value = '';
+        inputDesc.value = '';
+        inputImgUrl.value = '';
+        inputFileCsv.value = null; // 清空檔案輸入
+        modal.close();
+    }
+    
     // =====================
     // 知識庫：渲染
     // =====================
@@ -619,7 +733,7 @@
         const img = $('img', node);
         const title = $('.title', node);
         const meta = $('.meta', node);
-        img.src = a.img_url || `https://via.placeholder.com/600x340/4a4a5a/ffffff?text=${(a.title_zh||'').slice(0,10)}`;
+        img.src = a.img_url || `https://via.placeholder.com/600x340/4a4a5a/ffffff?text=${(lang === 'zh-Hant' ? a.title_zh : a.title_en||a.title_zh||'').slice(0,10)}`;
         img.alt = (lang === 'zh-Hant' ? a.title_zh : a.title_en) || 'asset image';
         title.textContent = (lang === 'zh-Hant' ? a.title_zh : (a.title_en || a.title_zh));
         meta.textContent = (lang === 'zh-Hant' ? a.info_zh : (a.info_en || a.info_zh));
@@ -649,199 +763,195 @@
         const en = `${a.title_en || ''} ${a.info_en || ''} ${a.desc || ''}`.toLowerCase();
         if (zh.includes(q) || en.includes(q)) { found = a; break; }
       }
-      setTimeout(() => addBubble('ai', isZh ? '（RAG 檢索中...）' : '(RAG retrieving...)'), 350);
+      
+      const placeholderIndex = chatBox.children.length; // 紀錄位置
+      const placeholder = document.createElement('div');
+      placeholder.className = 'bubble ai';
+      placeholder.textContent = isZh ? '（RAG 檢索中...）' : '(RAG retrieving...)';
+      chatBox.appendChild(placeholder);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
       setTimeout(() => {
         let reply;
         if (!state.ragReady) {
-          reply = isZh ? '[系統] RAG 核心未連線。請檢查您的 Gemini API Key。' : '[SYSTEM] RAG Core is offline. Please check your Gemini API Key.';
+          reply = isZh ? '偵測到 RAG 核心尚未連線。請檢查您的 Gemini Key。' : 'RAG core disconnected. Please check your Gemini Key.';
         } else if (found) {
           const title = isZh ? found.title_zh : (found.title_en || found.title_zh);
           const info = isZh ? found.info_zh : (found.info_en || found.info_zh);
-          const desc = (found.desc && found.desc.trim()) ? found.desc : (isZh ? '知識庫中暫無詳細描述。' : 'No detailed description found.');
-          reply = isZh ? `[RAG 回應] 關於「${title}」：${desc}（來源：${info.split(' / ')[1] || 'RAG'}）` : `[RAG] Regarding "${title}": ${desc} (Source: ${(info.split(' / ')[1] || 'RAG')})`;
+          const desc = found.desc || (isZh ? '此資產缺乏詳細描述。' : 'This asset lacks detailed description.');
+          reply = isZh 
+            ? `好的，關於「${title}」（${info}），我們的知識庫有以下資訊：\n\n${desc}` 
+            : `Yes, I found information on "${title}" (${info}):\n\n${desc}`;
         } else {
-          reply = isZh ? `[RAG 回應] 未找到與「${query}」相符的項目。` : `[RAG] No match for "${query}".`;
+          reply = isZh 
+            ? '知識庫中找不到相關資訊。或許您可以嘗試匯入更多自定義資料？' 
+            : 'I couldn\'t find a match in the knowledge base. Would you like to import more custom data?';
         }
-        addBubble('ai', reply);
-      }, 1200);
+        
+        // 替換佔位符
+        placeholder.textContent = reply;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 1500); 
     }
 
+    function handleChatSend() {
+      const query = chatInput.value.trim();
+      if (!query) return;
+
+      addBubble('user', query);
+      chatInput.value = '';
+
+      simulateRAG(query);
+    }
+    
     // =====================
-    // 事件
+    // 其他事件綁定
     // =====================
     function bindEvents() {
-      // 語言
+      // 語言切換
       btnZh.addEventListener('click', () => applyLang('zh-Hant'));
       btnEn.addEventListener('click', () => applyLang('en'));
 
-      // --- 導覽：點擊平滑捲動 + 活動狀態 ---
-      const navLinks = $$('.nav a');
-      navLinks.forEach(a => a.addEventListener('click', (e) => {
-        const href = a.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          const target = $(href);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }));
-      const observedSections = ['#section-guide','#section-kb','#section-xp','#section-me']
-        .map(sel => $(sel)).filter(Boolean);
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = '#' + entry.target.id;
-            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
-          }
-        });
-      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0.1 });
-      observedSections.forEach(sec => io.observe(sec));
+      // 儲存 API
+      btnSaveAPI.addEventListener('click', () => {
+        const key = inputGemini.value.trim();
+        const ok = key && key.length > 10;
+        state.geminiKey = key;
+        state.ragReady = !!ok;
+        localStorage.setItem('geminiKey', state.geminiKey);
+        localStorage.setItem('ragReady', String(state.ragReady));
+        setRagUI(state.ragReady);
+        toast(ok ? t('toast_key_ok') : t('toast_key_bad'), ok ? 'success' : 'error');
+        if (ok) addBubble('ai', (state.lang === 'zh-Hant') ? '服務已啟動。RAG 檢索就緒，請開始提問！' : 'Service initiated. RAG retrieval is ready.');
+      });
 
-      // 篩選
-      filterButtons.forEach(btn => btn.addEventListener('click', () => {
-        filterButtons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        state.filter = btn.dataset.filter || 'all';
+      // 聊天
+      btnSend.addEventListener('click', handleChatSend);
+      chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChatSend(); });
+
+      // 知識庫過濾與搜尋
+      kbSearch.addEventListener('input', (e) => {
+        state.search = e.target.value;
         renderKB();
-      }));
-
-      // 搜尋（去抖）
-      let timer = 0;
-      kbSearch.addEventListener('input', () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { state.search = kbSearch.value; renderKB(); }, 180);
+      });
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          $$('.filter').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          state.filter = e.target.dataset.filter;
+          renderKB();
+        });
       });
 
-      // 匯入
+      // Modal 相關
       btnImport.addEventListener('click', () => modal.showModal());
-      btnCloseModal.addEventListener('click', () => modal.close());
-      btnCancel.addEventListener('click', () => modal.close());
+      [btnCloseModal, btnCancel].forEach(btn => btn.addEventListener('click', () => modal.close()));
+      
+      // 處理單筆匯入 (取代舊的 submit handler)
+      importForm.addEventListener('submit', handleSingleImport);
+      
+      // 處理 AI 自動摘要 (新增)
+      btnAiSummarize.addEventListener('click', () => {
+          if (!state.ragReady) {
+              toast(t('toast_need_key'), 'error');
+              return;
+          }
 
-      importForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = inputName.value.trim();
-        const loc = inputLoc.value.trim();
-        if (!name || !loc) { toast(t('toast_import_error'), 'error'); return; }
-        const type = (inputType.value.trim() || 'custom').toLowerCase();
-        const desc = inputDesc.value.trim();
-        const asset = {
-          id: String(Date.now()),
-          type,
-          title_zh: name,
-          info_zh: `${loc} / ${type === 'custom' ? '用戶自定義' : type}`,
-          title_en: `[Custom] ${name}`,
-          info_en: `${loc} / Custom Asset`,
-          img_url: `https://via.placeholder.com/600x340/4a4a5a/ffffff?text=${encodeURIComponent(name.slice(0,10))}`,
-          desc,
-        };
-        addCustomAsset(asset);
-        modal.close();
-        importForm.reset();
-        toast(i18n[state.lang].toast_import_ok(name), 'success');
+          const longText = inputDesc.value.trim();
+          if (longText.length < 50) {
+              toast((state.lang === 'zh-Hant') ? '請輸入更多文本以供 AI 摘要。' : 'Please input more text for AI to summarize.', 'error');
+              return;
+          }
+
+          toast(t('toast_ai_summarizing'), 'success');
+
+          // **純前端模擬**：在真實環境中，此處應為調用 Gemini API
+          setTimeout(() => {
+              const isZh = state.lang === 'zh-Hant';
+              const summaryLoc = inputLoc.value.trim() || (isZh ? '該地點' : 'the location');
+              const summaryType = inputType.value.trim() || (isZh ? '文化資產' : 'cultural asset');
+              
+              const simulatedSummary = isZh 
+                  ? `[AI 摘要模擬] 此文物的核心價值已濃縮：它坐落於${summaryLoc}，屬於${summaryType}類型，歷史意義重大，是當地社區的文化焦點。`
+                  : `[AI Summary] The core value of this asset is summarized: Located in ${summaryLoc}, this ${summaryType} holds great historical significance and serves as a cultural focal point for the local community.`;
+
+              inputDesc.value = simulatedSummary;
+              toast(t('toast_ai_summarize_ok'), 'success');
+          }, 1500); // 模擬 1.5 秒延遲
       });
 
-      // 折疊
-      const toggle = (btn, body) => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        if (expanded) { body.setAttribute('hidden', ''); } else { body.removeAttribute('hidden'); }
-      };
-      localToggle.addEventListener('click', () => toggle(localToggle, localBody));
-      localToggle.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(localToggle, localBody); } });
-      meToggle.addEventListener('click', () => toggle(meToggle, meBody));
-      meToggle.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(meToggle, meBody); } });
+      // 處理 CSV 匯入 (新增)
+      btnImportCsv.addEventListener('click', () => {
+          const file = inputFileCsv.files[0];
+          if (!file) {
+              toast((state.lang === 'zh-Hant') ? '請選擇一個 CSV 檔案。' : 'Please select a CSV file.', 'error');
+              return;
+          }
 
-      // 聊天
-      btnSend.addEventListener('click', () => {
-        if (!state.ragReady) { toast(t('toast_need_key'), 'error'); return; }
-        const msg = chatInput.value.trim();
-        if (!msg) return;
-        addBubble('user', msg);
-        chatInput.value = '';
-        simulateRAG(msg);
-      });
-      chatInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); btnSend.click(); }
-      });
-    }));
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              const csvText = e.target.result;
+              const newAssets = parseCsv(csvText);
 
-      // 搜尋（去抖）
-      let timer = 0;
-      kbSearch.addEventListener('input', () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { state.search = kbSearch.value; renderKB(); }, 180);
-      });
+              if (!newAssets || newAssets.length === 0) {
+                   toast(t('toast_import_csv_error'), 'error');
+                   return;
+              }
 
-      // 匯入
-      btnImport.addEventListener('click', () => modal.showModal());
-      btnCloseModal.addEventListener('click', () => modal.close());
-      btnCancel.addEventListener('click', () => modal.close());
+              // 批次新增到 localStorage
+              const stored = JSON.parse(localStorage.getItem('customKnowledge') || '[]');
+              stored.push(...newAssets);
+              localStorage.setItem('customKnowledge', JSON.stringify(stored));
+              
+              // 更新 UI
+              loadKnowledge();
+              renderKB();
+              toast(t('toast_import_csv_ok')(newAssets.length), 'success');
+              
+              // 清空並關閉 Modal
+              inputFileCsv.value = null;
+              modal.close();
+          };
+          reader.onerror = () => {
+              toast((state.lang === 'zh-Hant') ? '讀取檔案失敗。' : 'Failed to read file.', 'error');
+          };
 
-      importForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = inputName.value.trim();
-        const loc = inputLoc.value.trim();
-        if (!name || !loc) { toast(t('toast_import_error'), 'error'); return; }
-        const type = (inputType.value.trim() || 'custom').toLowerCase();
-        const desc = inputDesc.value.trim();
-        const asset = {
-          id: String(Date.now()),
-          type,
-          title_zh: name,
-          info_zh: `${loc} / ${type === 'custom' ? '用戶自定義' : type}`,
-          title_en: `[Custom] ${name}`,
-          info_en: `${loc} / Custom Asset`,
-          img_url: `https://via.placeholder.com/600x340/4a4a5a/ffffff?text=${encodeURIComponent(name.slice(0,10))}`,
-          desc,
-        };
-        addCustomAsset(asset);
-        modal.close();
-        importForm.reset();
-        toast(i18n[state.lang].toast_import_ok(name), 'success');
+          reader.readAsText(file);
       });
 
-      // 折疊
-      const toggle = (btn, body) => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        if (expanded) { body.setAttribute('hidden', ''); } else { body.removeAttribute('hidden'); }
-      };
-      localToggle.addEventListener('click', () => toggle(localToggle, localBody));
-      localToggle.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(localToggle, localBody); } });
-      meToggle.addEventListener('click', () => toggle(meToggle, meBody));
-      meToggle.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(meToggle, meBody); } });
-
-      // 聊天
-      btnSend.addEventListener('click', () => {
-        if (!state.ragReady) { toast(t('toast_need_key'), 'error'); return; }
-        const msg = chatInput.value.trim();
-        if (!msg) return;
-        addBubble('user', msg);
-        chatInput.value = '';
-        simulateRAG(msg);
-      });
-      chatInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); btnSend.click(); }
-      });
+      // 折疊功能
+      localToggle.addEventListener('click', toggleCollapsible.bind(null, localBody, localToggle));
+      meToggle.addEventListener('click', toggleCollapsible.bind(null, meBody, meToggle));
+    }
+    
+    // =====================
+    // 共用工具
+    // =====================
+    function toggleCollapsible(body, header) {
+        const isHidden = body.hidden;
+        body.hidden = !isHidden;
+        header.setAttribute('aria-expanded', isHidden);
+        const caret = $('.caret', header);
+        if (caret) {
+            caret.textContent = isHidden ? '▼' : '▲';
+        }
     }
 
-    // =====================
-    // Toast
-    // =====================
-    let toastTimer = 0;
-    function toast(text, type='success') {
-      toaster.textContent = text;
-      toaster.className = 'toast ' + type + ' show';
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => { toaster.classList.remove('show'); }, 2600);
+    function toast(message, type = 'default') {
+      toaster.textContent = message;
+      toaster.className = 'toast show ' + type;
+      clearTimeout(toaster.timer);
+      toaster.timer = setTimeout(() => {
+        toaster.classList.remove('show');
+      }, 3000);
     }
 
-    // 啟動
+    // 啟動應用程式
     init();
+
   })();
   </script>
 </body>
 </html>
->
 
 
