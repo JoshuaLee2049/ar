@@ -119,7 +119,7 @@
     @media (max-width: 720px) { .kb-grid { grid-template-columns: 1fr; } }
 
     .kb-card { overflow:hidden; border-radius: 16px; border: 1px solid var(--glass-border); background: rgba(255,255,255,.02); }
-    .kb-card img { width: 100%; height: 180px; object-fit: cover; display:block; }
+    .kb-card img { width: 100%; display: block; object-fit: cover; aspect-ratio: 16 / 9; height: auto; }
     .kb-card .content { padding: .8rem .9rem; }
     .kb-card h4 { margin: 0 0 .25rem 0; font-size: 1.05rem; }
     .filters { display:flex; gap:.6rem; flex-wrap: wrap; }
@@ -127,7 +127,7 @@
     .filter.active { border-color: var(--pri); color: var(--text); box-shadow: var(--glow-pri); }
 
     /* Chat */
-    .chat { display:flex; flex-direction: column; gap: .6rem; height: 300px; overflow:auto; background: rgba(255,255,255,.02); border-radius: 12px; padding: .8rem; border: 1px solid var(--glass-border); }
+    .chat { display:flex; flex-direction: column; gap: .6rem; height: clamp(220px, 35vh, 360px); overflow:auto; background: rgba(255,255,255,.02); border-radius: 12px; padding: .8rem; border: 1px solid var(--glass-border); }
     .bubble { max-width: 88%; padding: .6rem .8rem; border-radius: 14px; }
     .bubble.ai { background: rgba(0,255,255,.08); border: 1px solid rgba(0,255,255,.2); }
     .bubble.user { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); margin-left: auto; }
@@ -141,7 +141,7 @@
     .xp-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     @media (max-width: 960px) { .xp-grid { grid-template-columns: 1fr; } }
     .xp-card { position: relative; overflow:hidden; border-radius: 16px; border:1px solid var(--glass-border); }
-    .xp-card img { width:100%; height: 260px; object-fit: cover; display:block; }
+    .xp-card img { width: 100%; display: block; object-fit: cover; aspect-ratio: 16 / 9; height: auto; }
     .xp-overlay { position:absolute; inset:auto 0 0 0; padding: .9rem; background: linear-gradient(180deg, transparent, rgba(0,0,0,.65)); }
     .tag { display:inline-block; padding:.3rem .5rem; background: rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.12); border-radius: 8px; margin-bottom:.4rem; }
 
@@ -747,5 +747,7 @@
   })();
   </script>
 </body>
+</html>
+
 </html>
 
