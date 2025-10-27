@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>文化智遊 - AI 科技儀表板\title>
+  <title>文化智遊 - AI 科技儀表板（重構版）</title>
   <meta name="color-scheme" content="dark" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -179,10 +179,10 @@
   <header class="header" role="banner">
     <h1 id="app-title" data-key="title">文化智遊儀表板</h1>
     <nav class="nav" aria-label="主要導覽">
-      <a href="#" class="active" data-key="nav_guide">導覽</a>
-      <a href="#" data-key="nav_knowledge">知識庫</a>
-      <a href="#" data-key="nav_experience">體驗</a>
-      <a href="#" data-key="nav_personal">個人中心</a>
+      <a href="#section-guide" class="active" data-key="nav_guide">導覽</a>
+      <a href="#section-kb" data-key="nav_knowledge">知識庫</a>
+      <a href="#section-xp" data-key="nav_experience">體驗</a>
+      <a href="#section-me" data-key="nav_personal">個人中心</a>
     </nav>
   </header>
 
@@ -218,7 +218,7 @@
     </section>
 
     <!-- AI 導覽 -->
-    <section class="panel col-12" aria-labelledby="guide-h2">
+    <section id="section-guide" class="panel col-12" aria-labelledby="guide-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>AI</span></div>
         <h2 id="guide-h2" data-key="h2_guide">AI 智能導覽</h2>
@@ -236,7 +236,7 @@
     </section>
 
     <!-- 知識庫 -->
-    <section class="panel col-12" aria-labelledby="kb-h2">
+    <section id="section-kb" class="panel col-12" aria-labelledby="kb-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>DB</span></div>
         <h2 id="kb-h2" data-key="h2_db">文化知識庫</h2>
@@ -258,7 +258,7 @@
     </section>
 
     <!-- 沉浸式體驗 -->
-    <section class="panel col-12" aria-labelledby="xp-h2">
+    <section id="section-xp" class="panel col-12" aria-labelledby="xp-h2">
       <div class="module-header">
         <div class="chip" aria-hidden="true"><span>AR</span></div>
         <h2 id="xp-h2" data-key="h2_immersive">沉浸式體驗</h2>
@@ -313,7 +313,7 @@
     </section>
 
     <!-- 個人化中心（可折疊） -->
-    <section class="panel col-12" aria-labelledby="me-h2">
+    <section id="section-me" class="panel col-12" aria-labelledby="me-h2">
       <div id="me-toggle" class="module-header collapsible" role="button" tabindex="0" aria-expanded="true">
         <div class="chip" aria-hidden="true"><span>USR</span></div>
         <h2 id="me-h2" data-key="h2_personal">個人化中心</h2>
@@ -749,5 +749,4 @@
 </body>
 </html>
 
-</html>
 
