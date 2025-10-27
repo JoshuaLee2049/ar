@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>文化智遊 - AI 科技儀表板</title>
-  <link rel="stylesheet" href="style.css">
+  <!-- 優化匯入結構，外部樣式可另存成 style.css，並模組化 JS 為 guide.js、rag.js 等 -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- 模組化語言切換區塊 -->
   <div class="lang-switch">
     <span>介面語言:</span>
-    <button class="lang-btn active" data-lang="zh-Hant" id="lang-zh-hant">繁體中文</button>
-    <button class="lang-btn" data-lang="en" id="lang-en">English</button>
+    <button class="lang-btn active" data-lang="zh-Hant">繁體中文</button>
+    <button class="lang-btn" data-lang="en">English</button>
   </div>
 
+  <!-- 標題與導覽列 -->
   <header class="header-zone">
     <h1 data-key="title">文化智遊儀表板</h1>
     <nav class="nav-links">
@@ -23,30 +26,25 @@
     </nav>
   </header>
 
+  <!-- 主內容區：分模組呈現，每區段建議抽離為 <section id="..."> 寫法 -->
   <main class="main-grid">
-    <!-- API 模組 -->
-    <section class="glass-panel api-settings" id="api-module"></section>
-
-    <!-- AI 導覽模組 -->
-    <section class="glass-panel ai-guide" id="guide-module"></section>
-
-    <!-- 知識庫模組 -->
-    <section class="glass-panel knowledge-base" id="knowledge-module"></section>
-
-    <!-- 沉浸式體驗模組 -->
-    <section class="glass-panel immersive-experience" id="immersive-module"></section>
-
-    <!-- 在地資訊模組 -->
-    <section class="glass-panel local-info" id="local-module"></section>
-
-    <!-- 個人化模組 -->
-    <section class="glass-panel personal-center" id="personal-module"></section>
+    <section id="api-settings" class="glass-panel">...API 模組...</section>
+    <section id="ai-guide" class="glass-panel">...AI 導覽模組...</section>
+    <section id="knowledge-base" class="glass-panel">...文化知識庫...</section>
+    <section id="immersive-experience" class="glass-panel">...AR/VR 體驗...</section>
+    <section id="local-info" class="glass-panel">...在地資訊模組...</section>
+    <section id="personal-center" class="glass-panel">...個人化中心...</section>
   </main>
 
-  <!-- 自定義匯入 Modal -->
-  <div id="importModal" class="modal"></div>
-  <div class="toast" id="toast"></div>
+  <!-- Modal & Toast 元件 -->
+  <div id="importModal" class="modal">...模組匯入表單...</div>
+  <div class="toast"></div>
 
-  <script src="script.js"></script>
+  <!-- 模組化腳本結構：將 JS 拆分為多個文件以利管理 -->
+  <script src="translations.js"></script>
+  <script src="storage.js"></script>
+  <script src="chat.js"></script>
+  <script src="language.js"></script>
+  <script src="rag.js"></script>
 </body>
 </html>
